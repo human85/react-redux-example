@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 function New() {
   const navigate = useNavigate()
   const [category, setCategory] = useState('pay')
-  const [money, setMoney] = useState(0) // 金额
+  const [money, setMoney] = useState('') // 金额
   const [useFor, setUseFor] = useState('') // 用途
   const [visible, setVisible] = useState(false) // 控制时间选择器可见性
   const [date, setDate] = useState(() => new Date())
@@ -29,6 +29,8 @@ function New() {
       useFor
     })
     Toast.show('保存成功')
+    setMoney('')
+    setUseFor('')
   }
 
   return (

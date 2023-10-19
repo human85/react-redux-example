@@ -111,6 +111,20 @@
       "date": "2023-10-19T05:55:37.979Z",
       "useFor": "bag",
       "id": 23
+    },
+    {
+      "type": "pay",
+      "money": -1000,
+      "date": "2023-10-19T09:40:39.012Z",
+      "useFor": "home",
+      "id": 24
+    },
+    {
+      "type": "income",
+      "money": 100,
+      "date": "2023-10-19T09:43:10.727Z",
+      "useFor": "salary",
+      "id": 25
     }
   ]
 }
