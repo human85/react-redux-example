@@ -1,19 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavBar, DatePicker } from 'antd-mobile'
 import DailyBill from './components/DailyBill'
 import cn from 'classnames'
 import './index.scss'
 import dayjs from 'dayjs'
-import { useSelector } from 'react-redux/es/hooks/useSelector'
 import useGroup from './hooks/useGroup'
 import useOverview from './hooks/useOverview'
+import { useBillList, useBillListDispatch } from '../Layout/BillListContext'
+import { getBillListApi } from '@/api/bill'
 
 export default function Month() {
-  const { billList } = useSelector(state => state.bill)
+  const billList = useBillList()
   const [dateVisible, setDateVisible] = useState(false)
   const [date, setDate] = useState(() => {
     return dayjs('2023-03').format('YYYY | MM')
   })
+
+  const billListDispatch = useBillListDispatch()
+
+  useEffect(() => {
+    async function getBillList() {
+      const { data } = await getBillListApi()
+      if (!ignore) {
+        billListDispatch({
+          type: 'replaced',
+          data
+        })
+      }
+    }
+
+    let ignore = false
+    getBillList()
+
+    return () => {
+      ignore = true
+    }
+  }, [billListDispatch])
+
+  async function getBillList() {
+    const { data } = await getBillListApi()
+    billListDispatch({
+      type: 'replaced',
+      data
+    })
+  }
 
   // 按月份划分的账单组
   const billGroup = useGroup(billList, 'YYYY | MM')

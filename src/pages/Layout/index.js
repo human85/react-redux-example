@@ -1,15 +1,10 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { TabBar } from 'antd-mobile'
 import { BillOutline, CalculatorOutline, AddCircleOutline } from 'antd-mobile-icons'
-import './index.scss'
-import { getBillList } from '@/store/modules/billSlice'
-import useData from '@/hooks/useData'
 import { useEffect, useState } from 'react'
+import { BillListProvider } from './BillListContext'
 
 function Layout() {
-  // 获取账单列表数据
-  useData(getBillList)
-
   const navigate = useNavigate()
   const [activeKey, setActiveKey] = useState('month')
   const location = useLocation()
@@ -45,7 +40,9 @@ function Layout() {
   return (
     <div className="layout">
       <main className="container">
-        <Outlet />
+        <BillListProvider>
+          <Outlet />
+        </BillListProvider>
       </main>
       <footer className="footer">
         <TabBar activeKey={activeKey} onChange={switchRoute}>
@@ -59,3 +56,14 @@ function Layout() {
 }
 
 export default Layout
+
+// function billListReducer(billList, action) {
+//   switch (action.type) {
+//     case 'replace_list': {
+//       return action.data
+//     }
+//     default: {
+//       throw Error('未知 action: ' + action.type)
+//     }
+//   }
+// }
